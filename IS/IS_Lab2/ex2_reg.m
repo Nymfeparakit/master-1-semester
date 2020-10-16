@@ -82,30 +82,35 @@ pause;
 initial_theta = zeros(size(X, 2), 1);
 
 % Задание lambda (предополагается варьирование этого параметра)
-lambda = 100;
+lambda = [1 5 100];
 
 % Задание опций
 options = optimset('GradObj', 'on', 'MaxIter', 400);
 
 % Оптимизация
-[theta, J, exit_flag] = ...
-	fmincg(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+%[theta, J, exit_flag] = ...
+%	fmincg(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
 
-% Отображение границы классов
-plotDecisionBoundary(theta, X, y);
-hold on;
-title(sprintf('lambda = %g', lambda))
+for i = 1:length(lambda)
+    [theta, J, exit_flag] = ...
+        fminunc(@(t)(costFunctionReg(t, X, y, lambda(i))), initial_theta, options);
+    % Отображение границы классов
+    plotDecisionBoundary(theta, X, y);
+    hold on;
+    title(sprintf('lambda = %g', lambda(i)))
 
-% Подписи
-xlabel('Тест микросхем 1')
-ylabel('Тест микросхем 2')
+    % Подписи
+    xlabel('Тест микросхем 1')
+    ylabel('Тест микросхем 2')
 
-legend('y = 1', 'y = 0', 'Граница')
-hold off;
+    legend('y = 1', 'y = 0', 'Граница')
+    hold off;
 
-% Определяется точность тренировочного набора данных
-p = predict(theta, X);
+    % Определяется точность тренировочного набора данных
+    p = predict(theta, X);
 
-fprintf('Точность обучения: %f\n', mean(double(p == y)) * 100);
+    fprintf('Точность обучения: %f\n', mean(double(p == y)) * 100);
+end
+
 
 
