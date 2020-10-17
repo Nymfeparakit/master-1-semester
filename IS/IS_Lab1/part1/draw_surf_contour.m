@@ -1,7 +1,9 @@
 data = load('surf_data.txt');
 theta0_vals = data(:, 1);
 theta1_vals = data(:, 2);
-J_vals = readmatrix('surf_values.txt');
+J_vals = load('surf_values.txt');
+theta = load('theta_vals.txt');
+%J_vals = data(:, :);
 
 % производится транспонирование из-за особенности работы программы 
 % surf

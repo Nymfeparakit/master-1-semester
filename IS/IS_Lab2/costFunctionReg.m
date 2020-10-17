@@ -24,11 +24,10 @@ end
 reg_sum = reg_sum * lambda / 2;
 
 for i = 1:m
-    J = J - y(i)*log(sigmoid(X(i, :)*theta))-(1-y(i))*log(1-sigmoid(X(i, :)*theta)) + reg_sum;
+    J = J - y(i)*log(sigmoid(X(i, :)*theta))-(1-y(i))*log(1-sigmoid(X(i, :)*theta));% + reg_sum;
 end
+J = J + reg_sum;
 J = J ./ m;
-
-
 
 for j = 1:rows_num
     grad(1) = grad(1) + (sigmoid(X(j, :)*theta) - y(j))*X(j, 1);
@@ -39,7 +38,7 @@ for i = 2:cols_num
     for j = 1:rows_num
         grad(i) = grad(i) + (sigmoid(X(j, :)*theta) - y(j))*X(j, i);
     end
-    grad(i) = (grad(i) + lambda*theta(i)) / m;
+    grad(i) = (grad(i) + lambda*theta(i)) ./ m;
 end
 
 %

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import utils as ut
 
+print('Загрузка данных...')
 X = []
 Y = []
 with open('ex1data3.csv') as f:
@@ -16,11 +17,13 @@ m = Y.size
 
 
 # Задача 1 - Нормализация признаков
+print('Нормализация признаков...')
 X, mu, sigma = ut.featureNormalize(X)
 ones_column = np.ones((m, 1))
 X = np.hstack((ones_column, X))
 
 # Задача 2 - Метод градиентного спуска
+print('Выполнение градиентного спуска...')
 alpha = 0.01
 num_iters = 400
 
@@ -59,8 +62,11 @@ plt.plot(np.arange(1, 51), J_2)
 theta = np.zeros((3, 1))
 theta, J_3 = ut.gradient_descent(X, Y, theta, alpha, num_iters)
 plt.plot(np.arange(1, 51), J_3)
+ax = fig.axes[0]
+ax.legend(['alpha = 0.3', 'alpha = 0.1', 'alpha = 0.03'])
 plt.show()
 
+print("Решение системы нормальных уравнений...")
 # Загрузка данных
 X = []
 Y = []
@@ -79,6 +85,7 @@ X = np.hstack((ones_column, X))
 
 # Расчет theta решением системы нормальных уравнений
 theta = ut.normalEqn(X, Y)
+print("Значение theta, полученное методом решения системы нормальных уравнений:", theta)
 
 in_x_new = np.array([1, 60, 3]).reshape(3, 1)
 price = theta.T@in_x_new
